@@ -1,0 +1,82 @@
+/* --- TRANG ĐĂNG NHẬP (LOGIN) --- */
+.login-body {
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                url('https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1920&q=80');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-container {
+    background: #ffffff;
+    width: 100%;
+    max-width: 400px;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+}
+
+.login-header { text-align: center; margin-bottom: 30px; }
+.login-header .logo { font-size: 28px; margin-bottom: 10px; }
+.login-header h2 { color: #333; font-size: 22px; }
+.login-header p { color: #666; font-size: 14px; }
+
+.input-group { margin-bottom: 20px; }
+.input-group label { display: block; font-weight: bold; margin-bottom: 8px; color: #444; }
+.input-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    outline: none;
+    transition: 0.3s;
+}
+.input-group input:focus { border-color: #007bff; box-shadow: 0 0 5px rgba(0,123,255,0.3); }
+
+.form-actions { display: flex; justify-content: space-between; align-items: center; font-size: 14px; margin-bottom: 20px; }
+.forgot-pw { color: #007bff; text-decoration: none; }
+.forgot-pw:hover { text-decoration: underline; }
+
+.btn-login-submit {
+    width: 100%;
+    padding: 14px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.btn-login-submit:hover { background: #0056b3; }
+
+.register-link { text-align: center; margin-top: 20px; font-size: 14px; }
+.register-link a { color: #007bff; font-weight: bold; text-decoration: none; }
+
+.back-home { display: block; text-align: center; margin-top: 15px; font-size: 14px; color: #555; text-decoration: none; }
+.back-home:hover { color: #333; }
+
+/* Thông báo lỗi */
+.error-msg { color: #dc3545; font-size: 14px; text-align: center; margin-bottom: 15px; display: none; }
+
+/* Làm cho container đăng ký dài ra một chút để chứa nhiều ô input hơn */
+.login-container {
+    max-height: 90vh; /* Giới hạn chiều cao */
+    overflow-y: auto; /* Nếu màn hình nhỏ quá thì có thanh cuộn trong form */
+}
+
+/* Ẩn hiện thông báo lỗi */
+.error-msg {
+    color: #dc3545;
+    background: #f8d7da;
+    padding: 8px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    font-size: 13px;
+    display: none;
+}

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LivingPeaceful - Thuê phòng giá tốt</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="navbar">
+            <div class="logo">Living<span>Peaceful</span></div>
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">Trang chủ</a></li>
+                <li><a href="#">Dịch vụ</a></li>
+                <li><a href="#">Liên hệ</a></li>
+                <div id="auth-section">
+                <a href="login.html" class="btn-login">Đăng nhập</a>
+            </div>
+            </ul>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-overlay">
+            <div class="hero-content">
+                <h1>Khám phá hơn 500+ phòng trọ tiện nghi</h1>
+                <p>Giá rẻ và an ninh bậc nhất tại TP.HCM</p>
+                <div class="filter-section">
+                    <input type="text" id="search-address" placeholder="Nhập địa chỉ hoặc quận...">
+                    <button id="btn-search" onclick="searchDistrict()">Tìm kiếm</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main class="container">
+        <div id="section-premium" style="display: none;">
+            <div class="section-title">
+                <h3>Phòng Trọ Cao Cấp (VIP)</h3>
+                <span class="line"></span>
+            </div>
+            <div class="slider-wrapper">
+                <button class="slide-btn prev" onclick="slide('premium-track', -1)">&#10094;</button>
+                <div class="slider-track" id="premium-track"></div>
+                <button class="slide-btn next" onclick="slide('premium-track', 1)">&#10095;</button>
+            </div>
+        </div>
+
+        <div id="dynamic-districts"></div>
+    </main>
+
+    <script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng ký tài khoản</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+<body class="login-body"> <div class="login-container">
+        <div class="login-header">
+            <div class="logo">Room<span>Rental</span></div>
+            <h2>Tạo tài khoản mới</h2>
+            <p>Tham gia cộng đồng thuê phòng ngay hôm nay</p>
+        </div>
+
+        <form id="register-form">
+            <div class="input-group">
+                <label>Họ và Tên</label>
+                <input type="text" id="reg-fullname"required>
+            </div>
+
+            <div class="input-group">
+                <label>Tên đăng nhập</label>
+                <input type="text" id="reg-username"required>
+            </div>
+
+            <div class="input-group">
+                <label>Email</label>
+                <input type="email" id="reg-email"required>
+            </div>
+
+            <div class="input-group">
+                <label>Mật khẩu</label>
+                <input type="password" id="reg-password" placeholder="Tối thiểu 6 ký tự" required>
+            </div>
+
+            <div class="input-group">
+                <label>Xác nhận mật khẩu</label>
+                <input type="password" id="reg-confirm" placeholder="Nhập lại mật khẩu" required>
+            </div>
+
+            <p id="reg-error" class="error-msg"></p>
+
+            <button type="submit" class="btn-login-submit">Đăng ký ngay</button>
+        </form>
+
+        <p class="register-link">Đã có tài khoản? <a href="login.html">Đăng nhập</a></p>
+        <a href="index.html" class="back-home">← Quay lại trang chủ</a>
+    </div>
+
+    <script src="register.js"></script>
+</body>
+</html>

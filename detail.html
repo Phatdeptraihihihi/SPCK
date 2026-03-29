@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi tiết phòng - LivingPeaceful</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="navbar">
+            <div class="logo">Living<span>Peaceful</span></div>
+            <ul class="nav-links">
+                <li><a href="index.html">Trang chủ</a></li>
+                <li><a href="#">Dịch vụ</a></li>
+                <li><a href="#">Liên hệ</a></li>
+                <li id="auth-section"><a href="login.html" class="btn-login">Đăng nhập</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main style="padding-bottom: 50px;">
+        <div class="detail-container" id="room-detail">
+            <div style="padding: 50px; text-align: center; width: 100%;">
+                <p>Đang tải thông tin phòng...</p>
+            </div>
+        </div>
+
+        <div class="container" id="related-section" style="display: none; margin-top: 60px;">
+            <div class="section-title">
+                <h3>Các phòng có liên quan</h3>
+                <span class="line"></span>
+            </div>
+            <div class="slider-wrapper">
+                <button class="slide-btn prev" onclick="slide('related-track', -1)">&#10094;</button>
+                <div class="slider-track" id="related-track">
+                    </div>
+                <button class="slide-btn next" onclick="slide('related-track', 1)">&#10095;</button>
+            </div>
+        </div>
+    </main>
+
+    <script src="detail.js"></script>
+</body>
+</html>
