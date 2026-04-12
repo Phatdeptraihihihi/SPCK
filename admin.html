@@ -3,112 +3,283 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard - Quản lý phòng</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body style="background-color: #f4f7f6; font-family: Arial, sans-serif;">
+    <title>Admin Dashboard - LivingPeaceful</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS GIỮ NGUYÊN PHONG CÁCH HIỆN ĐẠI */
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        body { display: flex; background: #f4f7fe; color: #2b3674; height: 100vh; overflow: hidden; }
 
-    <div class="admin-wrapper">
-        <div class="admin-header">
-            <h2>Phòng của ADMIN</h2>
-            <button class="btn-primary" onclick="toggleForm()">+ Thêm phòng mới</button>
+        .sidebar { width: 250px; background: white; padding: 20px; box-shadow: 2px 0 10px rgba(0,0,0,0.05); }
+        .sidebar h2 { color: #007bff; font-size: 24px; margin-bottom: 30px; font-weight: 700; }
+        .sidebar h2 span { color: #2b3674; }
+        .nav-item { display: block; padding: 12px 15px; color: #a3aed1; text-decoration: none; border-radius: 10px; margin-bottom: 10px; font-weight: 500; }
+        .nav-item.active { background: #007bff; color: white; }
+
+        .main-content { flex: 1; padding: 30px; overflow-y: auto; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+
+        /* Widget Thống Kê */
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 30px; }
+        .stat-card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+        .stat-card h3 { color: #a3aed1; font-size: 14px; margin-bottom: 10px; }
+        .stat-card .value { font-size: 22px; font-weight: 700; }
+
+        /* Bộ Lọc Nâng Cấp */
+        .filter-section { background: white; padding: 20px; border-radius: 15px; margin-bottom: 20px; display: flex; gap: 15px; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+        .filter-section input, .filter-section select { padding: 10px 12px; border: 1px solid #e0e5f2; border-radius: 8px; outline: none; font-size: 14px; flex: 1; }
+        .btn-add { background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 600; white-space: nowrap; }
+
+        /* Bảng Dữ Liệu */
+        .table-container { background: white; border-radius: 15px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); min-height: 450px; position: relative; }
+        table { width: 100%; border-collapse: collapse; }
+        th { color: #a3aed1; font-size: 13px; text-align: left; padding: 15px 10px; border-bottom: 1px solid #e0e5f2; }
+        td { padding: 12px 10px; border-bottom: 1px solid #f4f7fe; font-size: 14px; }
+        .room-img { width: 50px; height: 50px; border-radius: 8px; object-fit: cover; margin-right: 10px; }
+        .badge { padding: 4px 8px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+        .available { background: #e6f9f0; color: #05cd99; }
+        .rented { background: #feecee; color: #ee5d50; }
+
+        /* PHÂN TRANG (Pagination) CSS */
+        .pagination { display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 20px; padding-bottom: 10px; }
+        .page-btn { padding: 8px 15px; border: 1px solid #007bff; background: white; color: #007bff; border-radius: 5px; cursor: pointer; font-weight: 600; transition: 0.3s; }
+        .page-btn:hover:not(:disabled) { background: #007bff; color: white; }
+        .page-btn:disabled { border-color: #ddd; color: #999; cursor: not-allowed; }
+        #pageInfo { font-size: 14px; font-weight: 600; color: #2b3674; }
+
+        /* Modal Popup */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: center; z-index: 1000; }
+        .modal-box { background: white; padding: 25px; border-radius: 15px; width: 400px; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-size: 12px; margin-bottom: 5px; color: #a3aed1; }
+        .form-group input, .form-group select { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px; }
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <h2>Living<span>Peaceful</span></h2>
+        <nav>
+            <a href="#" class="nav-item active">📊 Dashboard</a>
+            <a href="#" class="nav-item">🏠 Quản lý phòng</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <header class="header">
+            <h1>Hệ Thống Quản Trị</h1>
+        </header>
+
+        <div class="stats-grid">
+            <div class="stat-card"><h3 style="color:#05cd99">Doanh thu</h3><div class="value" id="totalRevenue">0đ</div></div>
+            <div class="stat-card"><h3>Tổng phòng</h3><div class="value" id="totalRooms">0</div></div>
+            <div class="stat-card"><h3>Đang thuê</h3><div class="value" id="rentedRooms">0</div></div>
+            <div class="stat-card"><h3>Còn trống</h3><div class="value" id="availableRooms">0</div></div>
         </div>
 
-        <div id="form-container" class="admin-form-card" style="display: none;">
-            <h3 id="form-title">Thêm Phòng Mới</h3>
-            <input type="hidden" id="room-id"> <div class="form-grid">
-                <div class="input-item">
-                    <label>Tên phòng</label>
-                    <input type="text" id="room-name" placeholder="VD: Phòng Studio Quận 1">
-                </div>
-                <div class="input-item">
-                    <label>Hình ảnh (URL)</label>
-                    <input type="text" id="room-img" placeholder="Link ảnh...">
-                </div>
-                <div class="input-item">
-                    <label>Giá tiền</label>
-                    <input type="text" id="room-price" placeholder="VD: 5.000.000">
-                </div>
-                <div class="input-item">
-                    <label>Diện tích</label>
-                    <input type="text" id="room-area" placeholder="VD: 25">
-                </div>
-                <div class="input-item">
-                    <label>Địa chỉ</label>
-                    <input type="text" id="room-address" placeholder="Quận 1, TP.HCM">
-                </div>
-                <div class="input-item">
-                    <label>Tiện ích</label>
-                    <input type="text" id="room-utility" placeholder="Wifi, Máy lạnh...">
-                </div>
-                <div class="input-item">
-                    <label>Trạng thái</label>
-                    <select id="room-status">
-                        <option value="Còn trống">Còn trống</option>
-                        <option value="Hết phòng">Hết phòng</option>
-                    </select>
-                </div>
-            </div>
+        <div class="filter-section">
+            <input type="text" id="searchInput" placeholder="Tìm tên phòng..." oninput="handleFilterChange()">
+            
+            <select id="districtFilter" onchange="handleFilterChange()">
+                <option value="All">Tất cả Quận</option>
+                <option value="Quận 1">Quận 1</option>
+                <option value="Quận 3">Quận 3</option>
+                <option value="Quận 7">Quận 7</option>
+                <option value="Gò Vấp">Gò Vấp</option>
+                <option value="Bình Thạnh">Bình Thạnh</option>
+                <option value="Tân Bình">Tân Bình</option>
+            </select>
 
-            <div class="form-actions">
-                <button type="button" class="btn-success" onclick="saveRoom()">Lưu dữ liệu</button>
-                <button type="button" class="btn-secondary" onclick="toggleForm()">Hủy bỏ</button>
-            </div>
+            <select id="statusFilter" onchange="handleFilterChange()">
+                <option value="All">Tất cả trạng thái</option>
+                <option value="Còn trống">Còn trống</option>
+                <option value="Đã thuê">Đã thuê</option>
+            </select>
+
+            <button class="btn-add" onclick="openModal()">+ Thêm phòng</button>
         </div>
 
         <div class="table-container">
-            <table class="admin-table">
+            <table>
                 <thead>
                     <tr>
-                        <th>Ảnh</th>
-                        <th>Thông tin</th>
-                        <th>Giá & Diện tích</th>
+                        <th>Phòng</th>
+                        <th>Quận</th>
+                        <th>Giá / Diện tích</th>
                         <th>Trạng thái</th>
                         <th>Thao tác</th>
                     </tr>
                 </thead>
-                <tbody id="admin-table-body">
-                    </tbody>
+                <tbody id="roomTableBody"></tbody>
             </table>
-        </div>
 
-        <div id="pagination-wrapper" class="pagination">
+            <div class="pagination">
+                <button class="page-btn" id="prevPage" onclick="changePage(-1)">Trước</button>
+                <span id="pageInfo">Trang 1 / 1</span>
+                <button class="page-btn" id="nextPage" onclick="changePage(1)">Sau</button>
             </div>
+        </div>
+    </main>
+
+    <div class="modal-overlay" id="roomModal">
+        <div class="modal-box">
+            <h2 id="modalTitle">Thông tin phòng</h2>
+            <input type="hidden" id="roomId">
+            <div class="form-group"><label>Tên phòng</label><input type="text" id="roomName"></div>
+            <div class="form-group">
+                <label>Quận</label>
+                <select id="roomDistrict">
+                    <option value="Quận 1">Quận 1</option>
+                    <option value="Quận 3">Quận 3</option>
+                    <option value="Quận 7">Quận 7</option>
+                    <option value="Gò Vấp">Gò Vấp</option>
+                    <option value="Bình Thạnh">Bình Thạnh</option>
+                    <option value="Tân Bình">Tân Bình</option>
+                </select>
+            </div>
+            <div class="form-group"><label>Giá (VNĐ)</label><input type="number" id="roomPrice"></div>
+            <div class="form-group"><label>Diện tích</label><input type="text" id="roomArea"></div>
+            <div class="form-group">
+                <label>Trạng thái</label>
+                <select id="roomStatus">
+                    <option value="Còn trống">Còn trống</option>
+                    <option value="Đã thuê">Đã thuê</option>
+                </select>
+            </div>
+            <div class="modal-actions" style="text-align:right">
+                <button onclick="closeModal()" style="padding:8px 15px; border:none; cursor:pointer">Hủy</button>
+                <button onclick="saveRoom()" style="padding:8px 15px; background:#007bff; color:white; border:none; border-radius:5px; cursor:pointer">Lưu</button>
+            </div>
+        </div>
     </div>
 
-    <script src="admin.js"></script>
+    <script>
+        const API_URL = 'https://69192a329ccba073ee924a89.mockapi.io/rooms';
+        let allRooms = []; // Chứa toàn bộ data từ API
+        let filteredRooms = []; // Chứa data sau khi lọc (tìm kiếm, quận)
+        
+        let currentPage = 1;
+        const roomsPerPage = 5;
 
-    <style>
-.admin-wrapper { max-width: 1100px; margin: 30px auto; padding: 20px; }
-.admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        // 1. LẤY DATA
+        async function fetchRooms() {
+            try {
+                const res = await fetch(API_URL);
+                allRooms = await res.json();
+                handleFilterChange(); // Sau khi lấy data, tiến hành lọc và hiển thị
+            } catch (e) { alert("Lỗi tải API"); }
+        }
 
-/* Buttons */
-.btn-primary { background: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
-.btn-success { background: #28a745; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; }
-.btn-secondary { background: #6c757d; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; }
-.btn-warning { background: #ffc107; color: #000; padding: 6px 12px; border: none; border-radius: 4px; cursor: pointer; margin-right: 5px; }
-.btn-danger { background: #dc3545; color: white; padding: 6px 12px; border: none; border-radius: 4px; cursor: pointer; }
-button:hover { opacity: 0.9; }
+function handleFilterChange() {
+    const search = document.getElementById('searchInput').value.toLowerCase();
+    const districtFilter = document.getElementById('districtFilter').value; // Ví dụ: "Quận 1"
+    const status = document.getElementById('statusFilter').value;
 
-/* Form Card */
-.admin-form-card { background: white; padding: 25px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-bottom: 30px; }
-.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
-.input-item label { display: block; margin-bottom: 8px; font-weight: bold; color: #333; }
-.input-item input, .input-item select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
-.form-actions { display: flex; gap: 10px; }
+    filteredRooms = allRooms.filter(room => {
+        // Lấy địa chỉ từ API và kiểm tra xem có chứa chữ "Quận 1", "Quận 3"... không
+        const roomAddress = (room.address || "").toString();
+        
+        // 1. Kiểm tra khớp tên
+        const matchName = (room.name || "").toLowerCase().includes(search);
+        
+        // 2. Kiểm tra khớp trạng thái
+        const matchStatus = status === "All" || room.status === status;
 
-/* Table */
-.table-container { background: white; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); overflow: hidden; }
-.admin-table { width: 100%; border-collapse: collapse; text-align: left; }
-.admin-table th { background: #f8f9fa; padding: 15px; border-bottom: 2px solid #ddd; }
-.admin-table td { padding: 15px; border-bottom: 1px solid #eee; vertical-align: middle; }
-.admin-table tr:hover { background-color: #fcfcfc; }
+        // 3. Kiểm tra khớp Quận (Dựa trên trường address trong ảnh của bạn)
+        const matchDist = districtFilter === "All" || roomAddress.includes(districtFilter);
 
-/* Pagination */
-.pagination { display: flex; justify-content: center; gap: 8px; margin-top: 25px; }
-.page-btn { padding: 8px 15px; border: 1px solid #ddd; background: white; cursor: pointer; border-radius: 4px; }
-.page-btn.active { background: #007bff; color: white; border-color: #007bff; }
-.page-btn:hover:not(.active) { background: #f1f1f1; }
-    </style>
+        return matchName && matchDist && matchStatus;
+    });
+
+    currentPage = 1; 
+    updateStats();
+    renderTable();
+}
+        // 3. HIỂN THỊ BẢNG THEO TRANG
+        function renderTable() {
+            const tbody = document.getElementById('roomTableBody');
+            tbody.innerHTML = '';
+
+            // Tính toán vị trí bắt đầu và kết thúc của mảng cho trang hiện tại
+            const start = (currentPage - 1) * roomsPerPage;
+            const end = start + roomsPerPage;
+            const roomsToShow = filteredRooms.slice(start, end);
+
+            roomsToShow.forEach(room => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><div style="display:flex;align-items:center"><img src="${room.img || 'https://via.placeholder.com/50'}" class="room-img"><strong>${room.name}</strong></div></td>
+                    <td>${room.district || 'N/A'}</td>
+                    <td><b style="color:#007bff">${Number(room.price).toLocaleString()}đ</b><br><small>${room.area}</small></td>
+                    <td><span class="badge ${room.status === 'Còn trống' ? 'available' : 'rented'}">${room.status}</span></td>
+                    <td><button onclick="openModal('${room.id}')" style="border:none;background:none;cursor:pointer">✏️</button></td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            updatePaginationUI();
+        }
+
+        // 4. CẬP NHẬT NÚT BẤM PHÂN TRANG
+        function updatePaginationUI() {
+            const totalPages = Math.ceil(filteredRooms.length / roomsPerPage) || 1;
+            document.getElementById('pageInfo').innerText = `Trang ${currentPage} / ${totalPages}`;
+            
+            document.getElementById('prevPage').disabled = currentPage === 1;
+            document.getElementById('nextPage').disabled = currentPage === totalPages;
+        }
+
+        function changePage(step) {
+            currentPage += step;
+            renderTable();
+        }
+
+        // 5. CẬP NHẬT THỐNG KÊ (Tổng doanh thu, số phòng...)
+        function updateStats() {
+            let rev = 0, rented = 0, avail = 0;
+            allRooms.forEach(r => {
+                if(r.status === "Đã thuê") { rev += Number(r.price); rented++; }
+                else avail++;
+            });
+            document.getElementById('totalRevenue').innerText = rev.toLocaleString() + "đ";
+            document.getElementById('totalRooms').innerText = allRooms.length;
+            document.getElementById('rentedRooms').innerText = rented;
+            document.getElementById('availableRooms').innerText = avail;
+        }
+
+        // Các hàm Modal (Giữ nguyên logic mở/đóng/lưu)
+        function openModal(id = null) {
+            document.getElementById('roomModal').style.display = 'flex';
+            if(id) {
+                const r = allRooms.find(x => x.id === id);
+                document.getElementById('roomId').value = r.id;
+                document.getElementById('roomName').value = r.name;
+                document.getElementById('roomDistrict').value = r.district || 'Quận 1';
+                document.getElementById('roomPrice').value = r.price;
+                document.getElementById('roomArea').value = r.area;
+                document.getElementById('roomStatus').value = r.status;
+            }
+        }
+        function closeModal() { document.getElementById('roomModal').style.display = 'none'; }
+        
+        async function saveRoom() {
+            const id = document.getElementById('roomId').value;
+            const data = {
+                name: document.getElementById('roomName').value,
+                district: document.getElementById('roomDistrict').value,
+                price: document.getElementById('roomPrice').value,
+                area: document.getElementById('roomArea').value,
+                status: document.getElementById('roomStatus').value
+            };
+            const method = id ? 'PUT' : 'POST';
+            const url = id ? `${API_URL}/${id}` : API_URL;
+            
+            await fetch(url, { method, headers:{'Content-Type':'application/json'}, body:JSON.stringify(data)});
+            closeModal();
+            fetchRooms();
+        }
+
+        fetchRooms(); // Khởi chạy
+    </script>
 </body>
 </html>

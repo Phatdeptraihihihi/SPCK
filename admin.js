@@ -4,6 +4,25 @@ let roomsList = [];
 let currentPage = 1;
 const itemsPerPage = 5; // Số phòng hiển thị trên 1 trang
 
+// Kiểm tra quyền truy cập ngay khi vào trang
+function checkAdminRole() {
+    const user = JSON.parse(localStorage.getItem('user')); // Giả sử bạn lưu user vào localStorage khi login
+
+    if (!user) {
+        alert("Bạn chưa đăng nhập!");
+        window.location.href = "login.html";
+        return;
+    }
+
+    if (user.role !== 'Admin') {
+        alert("Bạn không có quyền truy cập vào khu vực quản trị!");
+        window.location.href = "index.html"; // Đuổi về trang chủ
+    }
+}
+
+// Gọi hàm kiểm tra ngay lập tức
+checkAdminRole();
+
 // 1. TẢI DỮ LIỆU TỪ API
 async function loadData() {
     try {

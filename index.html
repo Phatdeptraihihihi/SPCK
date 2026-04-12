@@ -51,5 +51,118 @@
     </main>
 
     <script src="main.js"></script>
+
+    <button class="chat-toggle-btn" id="chatToggleBtn" onclick="toggleChat()">
+  💬 Chat với AI
+</button>
+
+<div class="chat-widget" id="chatWidget">
+  <div class="chat-widget-header">
+    <div class="header-info">
+      <img src="https://cdn-icons-png.flaticon.com/512/4712/4712035.png" alt="AI">
+      <div>
+        <h4>LivingPeaceful AI</h4>
+        <span class="status-text">Đang trực tuyến</span>
+      </div>
+    </div>
+    <button class="close-btn" onclick="toggleChat()">✖</button>
+  </div>
+
+  <div class="api-key-setup" id="apiKeySetup">
+    <input type="password" id="apiKeyInput" placeholder="Nhập Gemini API Key để test...">
+    <button onclick="saveApiKey()">Lưu</button>
+  </div>
+
+  <div class="chat-widget-body" id="chatWidgetBody">
+    <div class="msg ai">
+      <div class="bubble">Chào bạn! Mình là AI của LivingPeaceful. Bạn muốn tìm phòng khu vực nào hay mức giá bao nhiêu?</div>
+    </div>
+  </div>
+
+  <div class="chat-widget-footer">
+    <input type="text" id="chatInput" placeholder="Nhập yêu cầu của bạn..." onkeypress="handleEnter(event)">
+    <button id="sendBtn" onclick="sendChat()">Gửi</button>
+  </div>
+</div>
+
+<style>
+  /* Style cho Widget Chat */
+  .chat-toggle-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    z-index: 1000;
+    transition: 0.3s;
+  }
+  .chat-toggle-btn:hover { background: #0056b3; transform: scale(1.05); }
+
+  .chat-widget {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    width: 350px;
+    height: 500px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+    display: none; /* Ẩn mặc định */
+    flex-direction: column;
+    z-index: 1000;
+    overflow: hidden;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .chat-widget-header {
+    background: #007bff;
+    color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .header-info { display: flex; align-items: center; gap: 10px; }
+  .header-info img { width: 35px; background: white; border-radius: 50%; padding: 2px; }
+  .header-info h4 { margin: 0; font-size: 15px; }
+  .status-text { font-size: 11px; opacity: 0.8; }
+  .close-btn { background: none; border: none; color: white; font-size: 18px; cursor: pointer; }
+
+  .api-key-setup { padding: 10px; background: #fff3cd; display: flex; gap: 5px; border-bottom: 1px solid #ddd; }
+  .api-key-setup input { flex: 1; padding: 5px; }
+
+  .chat-widget-body {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: #f9f9f9;
+  }
+
+  .msg { display: flex; flex-direction: column; max-width: 85%; }
+  .msg.user { align-self: flex-end; }
+  .msg.ai { align-self: flex-start; }
+  .bubble { padding: 10px 14px; border-radius: 15px; font-size: 14px; line-height: 1.4; word-wrap: break-word; }
+  .msg.user .bubble { background: #007bff; color: white; border-bottom-right-radius: 2px; }
+  .msg.ai .bubble { background: #e9ecef; color: #333; border-bottom-left-radius: 2px; }
+
+  .chat-widget-footer {
+    display: flex;
+    padding: 10px;
+    background: white;
+    border-top: 1px solid #eee;
+  }
+  #chatInput { flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 20px; outline: none; }
+  #sendBtn { background: transparent; color: #007bff; border: none; font-weight: bold; padding: 0 15px; cursor: pointer; }
+</style>
 </body>
 </html>
