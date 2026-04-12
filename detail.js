@@ -59,6 +59,10 @@ function renderDetailInfo(room) {
                 <p>✔️ Giờ giấc tự do, không chung chủ.</p>
             </div>
 
+            <div style="line-height: 1.6; color: #444; margin-bottom: 30px;'>
+                <h2 style="margin-bottom: 10px;">Mô tả thêm...</h2>
+            </div>
+
             <button class="btn-detail" style="background: #28a745; font-size: 18px;" onclick="alert('Đã gửi yêu cầu liên hệ cho chủ nhà!')">📞 Liên hệ thuê ngay</button>
         </div>
     `;
