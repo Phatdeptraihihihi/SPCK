@@ -164,5 +164,49 @@
   #chatInput { flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 20px; outline: none; }
   #sendBtn { background: transparent; color: #007bff; border: none; font-weight: bold; padding: 0 15px; cursor: pointer; }
 </style>
+
+<style>
+  /* --- CẤU HÌNH RESPONSIVE CHO TRANG CHỦ & CHI TIẾT --- */
+@media screen and (max-width: 480px) {
+    /* Ép các font chữ tiêu đề nhỏ lại một chút để không bị nhảy hàng xuống dòng lỗi */
+    h1 { font-size: 22px !important; }
+    h2 { font-size: 18px !important; }
+    h3 { font-size: 16px !important; }
+    
+    /* Grid danh sách phòng: Chuyển hẳn về 1 cột dọc thẳng đứng */
+    .room-grid, #dynamic-districts, .slider-track {
+        display: grid !important;
+        grid-template-columns: 1fr !important; 
+        gap: 15px !important;
+        overflow-x: hidden !important;
+    }
+
+    /* Định hình lại thẻ Card phòng trên mobile */
+    .room-card {
+        width: 100% !important;
+        margin: 0 auto !important;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05) !important;
+    }
+
+    /* Ẩn các nút slide chuyển hướng (bấm mũi tên) trên đt vì đt sẽ vuốt cuộn dọc */
+    .slide-btn {
+        display: none !important;
+    }
+    
+    .slider-wrapper {
+        padding: 0 !important;
+    }
+
+    /* Giao diện trang chi tiết (Detail) */
+    .detail-container {
+        flex-direction: column !important;
+        padding: 10px !important;
+    }
+    
+    .detail-img, .detail-info {
+        width: 100% !important;
+    }
+}
+</style>
 </body>
 </html>
